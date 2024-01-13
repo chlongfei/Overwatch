@@ -40,9 +40,9 @@ services:
     env_file:
       - .env
     ports:
-      - '8574:8574'
+      - '8573:8573'
     expose:
-      - '8574'
+      - '8573'
 
 volumes:
   dbstore:
