@@ -33,7 +33,7 @@ services:
     env_file:
       - .env
     ports:
-      - '5000:8574'
+      - '8574:8574'
     expose:
       - '8574'
 
