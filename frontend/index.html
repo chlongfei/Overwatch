@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <title>Overwatch</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Expires" content="0" />
+</head>
+<body onload="checkServerState()">
+    <div class="container">
+
+        <!-- connectivity check to backend api server -->
+        <div id="conn-test"></div>
+        <script>
+            function checkServerState(){
+                var alertPending = '<div class="alert alert-warning" role="alert">Checking connectivity to server...</div>';
+                var alertBad = '<div class="alert alert-danger" role="alert">Failed connecting to server. Service may be temporarily unavailable.</div>';
+                var req = new XMLHttpRequest();
+                req.timeout = 2000;
+                req.onreadystatechange = function() {
+                    if (this.status == 200 && this.readyState == 4){
+                        document.getElementById('conn-test').style.display = 'none';
+                        getCameras(); //reterive cameras and show camera grid
+                    }else if (this.status > 400 && this.readyState == 4){
+                        document.getElementById('conn-test').innerHTML = alertBad;
+                    }else{
+                        document.getElementById('conn-test').innerHTML = alertPending;
+                    };
+                };
+                req.ontimeout = (e) => {
+                    document.getElementById('conn-test').innerHTML = alertBad;
+
+                };
+                req.open('GET', 'http://127.0.0.1:5000/', true);
+                req.send();
+            };
+        </script>
+
+        <!-- camera grid  -->
+        <div id="camera-grid" style="display:none">
+        </div>
+        <script>
+            function getCameras(){
+                document.getElementById('camera-grid').style.display = 'block';
+                var alertPending = '<div class="alert alert-warning" role="alert">Reteriving cameras...</div>';
+                var alertBad = '<div class="alert alert-danger" role="alert">Failed to reterive cameras. Server may have gone offline.</div>';
+                var req = new XMLHttpRequest();
+                req.timeout = 2000;
+                req.onreadystatechange = function() {
+                    if (this.status == 200 && this.readyState == 4){
+                        document.getElementById('camera-grid').innerHTML = "";
+                        sessionStorage.setItem("clist",this.response);
+                        showCameras(sessionStorage.getItem("clist"));
+                        setInterval(reloadCameras,60000);
+                    }else if (this.status > 400 && this.readyState == 4){
+                        document.getElementById('camera-grid').innerHTML = alertBad;
+                    }else{
+                        document.getElementById('camera-grid').innerHTML = alertPending;
+                    };
+                };
+                req.ontimeout = (e) => {
+                    document.getElementById('camera-grid').innerHTML = alertBad;
+
+                };
+                req.open('GET', 'http://127.0.0.1:5000/cams', true);
+                req.send();
+
+            }
+
+            function showCameras(cameraList){
+                ts = Date.now()
+                cams = JSON.parse(cameraList)
+                for (c = 0; c < cams.length; c++){
+                    cam = cams[c]
+                    let camView = ' <div id="'+c+'" class="card" style="display:inline-block"> \
+                                        <link rel="preload" href="'+cam.baseUrl+'?'+ts+'" as="image">\
+                                        <img src="'+cam.baseUrl+'?'+ts+'" class="card-img-top" onError="hideMe(\''+c+'\')"/>\
+                                        <div class="card-img-overlay">\
+                                            <div class="bg-dark text-white p-1">'+cam.friendly+'</div>\
+                                        </div>\
+                                    </div>'                                    
+                    document.getElementById('camera-grid').innerHTML += camView;
+                }
+            }
+
+            function hideMe(id){
+                document.getElementById(id).style.display = 'none';
+            }
+
+            function reloadCameras(){
+                document.getElementById('camera-grid').innerHTML = "";                      
+                showCameras(sessionStorage.getItem("clist"));
+            }
+
+        </script>
+        
+
+    </div>
+</body>

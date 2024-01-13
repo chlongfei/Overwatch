@@ -1,0 +1,41 @@
+services:
+  owdb:
+    container_name: overwatch-db
+    restart: always
+    build:
+      context: datastore
+    env_file:
+      - .env
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - dbstore:/var/lib/mysql
+
+  owsync:
+    container_name: overwatch-sync
+    build:
+      context: syncservice
+    depends_on:
+      - owdb
+    env_file:
+      - .env
+
+  owbackend:
+    container_name: overwatch-backend
+    restart: always
+    build:
+      context: backend
+    depends_on:
+      - owdb
+      - owsync
+    env_file:
+      - .env
+    ports:
+      - '5000:5000'
+    expose:
+      - '5000'
+
+volumes:
+  dbstore:
