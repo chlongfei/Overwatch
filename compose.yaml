@@ -21,6 +21,7 @@ services:
 
   owsync:
     container_name: overwatch-sync
+    restart: on-failure:2
     build:
       context: syncservice
     depends_on:
