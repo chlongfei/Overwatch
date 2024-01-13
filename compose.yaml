@@ -12,6 +12,12 @@ services:
       - '3306'
     volumes:
       - dbstore:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 2
+      start_period: 0s
 
   owsync:
     container_name: overwatch-sync
