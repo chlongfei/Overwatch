@@ -23,6 +23,9 @@ class OWDB:
     qGetCameraByFriendly = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt FROM cameras WHERE friendly = %s")
     qGetCameraByGeopoint = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt FROM cameras WHERE geoPoint = %s")
 
+    qGetCameraNearGeopoint = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt  FROM cameras WHERE ST_Distance_Sphere(geoPoint, point(%s,%s)) < %s")
+
+
     def __connect(self):
         """
         handles the connection to mysql
@@ -152,3 +155,19 @@ class OWDB:
         return self.__executeRead("getCameraById",self.qGetCameraById,(cid,))
 
     # TODO: create rest of CRUD functions
+
+    # Geography based quries
+    def getCameraNearGeopoint(self, lon, lat, rad):
+        """
+        reterives the ID of cameras within rad of point(lon,lat)
+        :param lon: longitude of query location
+        :param lat: lattitude of query location
+        :param rad: radius of query
+        :returns: json with array of camera IDs
+        """
+        cameraList = self.__executeRead("getCameraNearGeopoint", self.qGetCameraNearGeopoint, (lon, lat, rad))        
+        cameraJson = []
+        for i, cam in enumerate(cameraList):
+            cameraJson.append({"camId":cam[1], "entity":cam[2], "friendly":cam[3], "direction":cam[4], "lat":cam[5],"lon":cam[6],"type":cam[7], "baseUrl":cam[8], "hasAlt":cam[9]})
+        
+        return cameraJson

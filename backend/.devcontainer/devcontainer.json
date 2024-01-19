@@ -9,7 +9,7 @@
 		"dockerfile": "../Dockerfile"
 	},
 
-	"runArgs": ["--env-file","../.env", "--link", "owdb", "--name", "owbackend"]
+	"runArgs": ["--env-file","../.env", "--link", "owdb", "-p", "8573:8573","--name", "owbackend"]
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},

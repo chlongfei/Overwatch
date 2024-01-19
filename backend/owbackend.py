@@ -21,6 +21,10 @@ def henlo():
 def getCameras():
     return jsonify(db.getCamerasJson())
 
+@app.route('/cams/geo/<lon>/<lat>/<rad>')
+def getCameraNearGeopoint(lon, lat, rad):
+    return jsonify(db.getCameraNearGeopoint(lon,lat,rad))
+
 
 if __name__ == '__main__':
     from waitress import serve
