@@ -23,7 +23,7 @@ class OWDB:
     qGetCameraByFriendly = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt FROM cameras WHERE friendly = %s")
     qGetCameraByGeopoint = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt FROM cameras WHERE geoPoint = %s")
 
-    qGetCameraNearGeopoint = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt  FROM cameras WHERE ST_Distance_Sphere(geoPoint, point(%s,%s)) < %s")
+    qGetCameraNearGeopoint = ("SELECT id, camId, entity, friendly, direction, ST_X(geoPoint) latitude, ST_Y(geoPoint) longitude, streamType, baseUrl, hasAlt  FROM cameras WHERE ST_Distance_Sphere(geoPoint, point(%s,%s)) < %s order by ST_Distance_Sphere(geoPoint, point(%s,%s))")
 
 
     def __connect(self):
@@ -165,7 +165,7 @@ class OWDB:
         :param rad: radius of query
         :returns: json with array of camera IDs
         """
-        cameraList = self.__executeRead("getCameraNearGeopoint", self.qGetCameraNearGeopoint, (lon, lat, rad))        
+        cameraList = self.__executeRead("getCameraNearGeopoint", self.qGetCameraNearGeopoint, (lon, lat, rad, lon, lat))        
         cameraJson = []
         for i, cam in enumerate(cameraList):
             cameraJson.append({"camId":cam[1], "entity":cam[2], "friendly":cam[3], "direction":cam[4], "lat":cam[5],"lon":cam[6],"type":cam[7], "baseUrl":cam[8], "hasAlt":cam[9]})
