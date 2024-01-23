@@ -123,8 +123,8 @@ for i in range(1,len(camReader)-1):
     # capture coordinates
     try:
         camCoords = json.loads(cam[14])["coordinates"]
-        camLat = camCoords[0]
-        camLon = camCoords[1]
+        camLon = camCoords[0]
+        camLat = camCoords[1]
     except Exception as err:
         print("an error happend::", err)
 
