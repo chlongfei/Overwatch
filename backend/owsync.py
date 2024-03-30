@@ -33,19 +33,6 @@ class OWSYNC():
         self._entityName = entityName
         self.__dataList = []
 
-    
-    def __isDiff(self, srcHash:str, owHash:str):
-        """Compares hash of database record and hash of new data
-        
-        Args:
-            srcHash: hash string from the database
-            owHash: hash string calculated from datasource
-            
-        Returns:
-            boolean representation indicating if hash is different
-        """
-        assert not (srcHash == owHash)
-
     def __addEntityIfNotExist(self, entityName:str):
         """Creates entity record if not already present in db
         Method also sets the entityId instance variable
