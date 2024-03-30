@@ -1,9 +1,13 @@
+# Compose file for Overwatch application server stack
+# lchen@chlf.dev
+# March 2024
+
 services:
   owdb:
     container_name: overwatch-db
     restart: always
     build:
-      context: datastore
+      context: ./database
     env_file:
       - .env
     ports:
@@ -19,24 +23,13 @@ services:
       retries: 2
       start_period: 0s
 
-  owsync:
-    container_name: overwatch-sync
-    restart: on-failure:2
-    build:
-      context: syncservice
-    depends_on:
-      - owdb
-    env_file:
-      - .env
-
   owbackend:
     container_name: overwatch-backend
     restart: always
     build:
-      context: backend
+      context: ./backend
     depends_on:
       - owdb
-      - owsync
     env_file:
       - .env
     ports:

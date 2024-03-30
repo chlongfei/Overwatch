@@ -11,3 +11,4 @@ setuptools==69.0.3
 Werkzeug==3.0.1
 wheel==0.42.0
 waitress==2.1.2
+requests==2.31.0
