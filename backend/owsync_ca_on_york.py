@@ -23,12 +23,13 @@ class CA_ON_YORK(OWSYNC):
         dataCams = data["features"]
 
         for cam in dataCams:
+            camCoordinates = cam["geometry"]["coordinates"]
             camProperties = cam["properties"]
             self._addCamera(camProperties["FACILITYID"],
                             camProperties["cameralocation"],
                             None,
-                            camProperties["LATITUDE"],
-                            camProperties["LONGITUDE"],
+                            camCoordinates[0],
+                            camCoordinates[1],
                             "s",
                             camProperties["photo"],
                             None
