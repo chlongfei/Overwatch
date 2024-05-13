@@ -7,12 +7,14 @@ March 2024
 
 # ENTITY SYNC MODULES #
 from owsync_ca_on_tor_rescu import CA_ON_TOR_RESCU
+from owsync_ca_on_york import CA_ON_YORK
 
 
 class OWSyncCoordinator():
 
     syncModDict = {
-        'ca-on-tor-rescu': CA_ON_TOR_RESCU
+        'ca-on-tor-rescu': CA_ON_TOR_RESCU,
+        'ca-on-york': CA_ON_YORK
     }
 
     def fullSyncByEntity(self, entityName:str):
