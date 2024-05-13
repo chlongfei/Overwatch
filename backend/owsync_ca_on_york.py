@@ -28,8 +28,8 @@ class CA_ON_YORK(OWSYNC):
             self._addCamera(camProperties["FACILITYID"],
                             camProperties["cameralocation"],
                             None,
-                            camCoordinates[0],
                             camCoordinates[1],
+                            camCoordinates[0],
                             "s",
                             camProperties["photo"],
                             None
