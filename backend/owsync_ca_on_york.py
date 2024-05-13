@@ -9,7 +9,7 @@ lchen@chlf.dev
 Reference: https://insights-york.opendata.arcgis.com/datasets/york::traffic-camera/about
 """
 
-import requests, json
+import requests
 from owsync import OWSYNC
 
 class CA_ON_YORK(OWSYNC):
@@ -17,7 +17,7 @@ class CA_ON_YORK(OWSYNC):
     def __init__(self):
         super().__init__("owsync_ca_on_york")
 
-    def __getData(self):
+    def _getData(self):
         dataUrl = "https://ww8.yorkmaps.ca/arcgis/rest/services/OpenData/Traffic/MapServer/0/query?outFields=*&where=1%3D1&f=geojson"
         data = requests.get(dataUrl).json()
         dataCams = data["features"]
