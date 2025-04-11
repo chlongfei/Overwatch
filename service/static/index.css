@@ -1,0 +1,60 @@
+:root {
+    --tl-primary: rgb(2, 39, 94);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 80fr;
+    grid-gap: 0;
+}
+
+.nav {
+    background: var(--tl-primary);
+    color: white;
+    height: 100dvh;
+    width: 200px;
+}
+.nav-section {
+    margin: 0 10px;
+    padding: 10px 0;
+    border-bottom: solid thin;
+}
+
+.container {
+    margin: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table tr {    
+    text-align: center;
+}
+table th{
+    padding: 5px;
+    background-color: var(--tl-primary);
+    color: white;
+    border-bottom: solid thin;
+}
+table td {
+    padding: 5px;
+}
+table tbody tr {
+    border-top: solid thin;
+    cursor: pointer;
+    user-select: none;
+}
+table tbody tr:hover {
+    background-color: rgb(240, 240, 240);
+}
+table tbody tr:active {
+    background-color: rgb(136, 136, 136);
+    color: white;
+}

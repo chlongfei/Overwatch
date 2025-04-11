@@ -1,0 +1,12 @@
+FROM python:latest
+
+COPY . /opt/trafficlens
+
+WORKDIR /opt/trafficlens
+
+ENV FLASK_APP=tl_webservice
+ENV FLASK_ENV=development
+
+RUN pip install -r requirements.txt
+
+CMD ["python3","-m", "flask","--app","web","run","--host=0.0.0.0"]

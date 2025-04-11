@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficLens - Admin</title>
+    <link rel="stylesheet" href="/static/index.css"/>
+</head>
+<body class="grid-container">
+    <div class="nav">
+        <div class="nav-section">
+            <h1>Traffic Lens</h1>
+            <div>Admin</div>
+        </div>
+        <div class="nav-section">
+            <div><span style="font-size: x-small;">Connection Status</span> <span id="server-status"></span></div>
+            <script>
+                getServerStatus()
+                function getServerStatus(){
+                    let req = new XMLHttpRequest();
+                    req.open("GET","/api");
+                    req.onreadystatechange = () => {
+                        if (req.readyState === XMLHttpRequest.DONE){
+                            if (req.status === 200){
+                                document.getElementById("server-status").innerHTML = 'OK <span style="color:rgb(0, 255, 0); font-size:30px; vertical-align:middle">&bull;</span>';
+                            } else {
+                                document.getElementById("server-status").innerHTML = 'ERROR <span style="color:red; font-size:30px; vertical-align:middle">&bull;</span>';
+                            }
+                        }
+                    }
+                    req.send();
+                    document.getElementById("server-status").innerHTML = 'CHECKING...';
+                }
+            </script>
+        </div>
+    </div>
+    <div class="container">
+
+    </div>    
+</body>
+</html>

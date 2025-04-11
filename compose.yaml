@@ -1,0 +1,32 @@
+services:
+
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - ./database/init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+      MYSQL_DATABASE: trafficlens
+      MYSQL_USER: tl
+      MYSQL_PASSWORD: 3jc%Bd6S5xEEoPLDsGfJCc&isWZeNwqd%dz$a&7i5g
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+
+  service:
+    build: ./service
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=trafficlens
+      - MYSQL_USER=tl
+      - MYSQL_PASSWORD=3jc%Bd6S5xEEoPLDsGfJCc&isWZeNwqd%dz$a&7i5g
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
