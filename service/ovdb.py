@@ -2,7 +2,7 @@ from os import environ
 from mysql import connector
 from json import loads
 
-class TLDB():
+class OVDB():
 
     def __init__(self):
         self.db = connector.connect (

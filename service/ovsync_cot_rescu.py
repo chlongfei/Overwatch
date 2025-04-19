@@ -1,7 +1,7 @@
-from tlsync import TLSYNC
+from ovsync import OVSYNC
 from json import loads
 
-class SyncCotRescu (TLSYNC):
+class SyncCotRescu (OVSYNC):
     """Syncronization process for City of Toronto RESCU camera source
     """
 

@@ -1,8 +1,8 @@
 FROM python:latest
 
-COPY . /opt/trafficlens
+COPY . /opt/overwatch
 
-WORKDIR /opt/trafficlens
+WORKDIR /opt/overwatch
 
 ENV FLASK_APP=tl_webservice
 ENV FLASK_ENV=development

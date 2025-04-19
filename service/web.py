@@ -1,5 +1,5 @@
 from flask import Flask, Response, request, render_template
-from tl import TL
+from ov import OV
 
 app = Flask(__name__)
 
@@ -27,21 +27,21 @@ def api_henlo():
 @app.route('/api/source')
 def api_sources():
     if (request.method == 'GET'):
-        return TL.getAllSources()
+        return OV.getAllSources()
     else:
         return Response(status=500)
     
 @app.route('/api/source/<sourceID>')
 def api_source_entities(sourceID):
     if (request.method == 'GET'):
-        return TL.getEntitiesBySource(sourceID)
+        return OV.getEntitiesBySource(sourceID)
     else:
         return Response(status=500)
 
 @app.route('/api/entity/<entityID>')
 def api_source_entity(entityID):
     if (request.method == 'GET'):
-        return TL.getEntity(entityID)
+        return OV.getEntity(entityID)
     else:
         return Response(status=500)
 
@@ -49,6 +49,6 @@ def api_source_entity(entityID):
 @app.route('/api/entity/<geoLat>/<geoLon>')
 def api_source_entity_nearby(geoLat,geoLon):
     if (request.method == 'GET'):
-        return TL.getEntitiesNearby(1, geoLat,geoLon)
+        return OV.getEntitiesNearby(1, geoLat,geoLon)
     else:
         return Response(status=500)

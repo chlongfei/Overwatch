@@ -1,10 +1,10 @@
--- CRUD trafficlens.entities
+-- CRUD overwatch.entities
 
 /* 
     adds an entity object to tables, returns sysid of new record
 */
 delimiter //
-create procedure trafficlens.add_entity (
+create procedure overwatch.add_entity (
     in p_source_id int,
     in p_media_id varchar(255),
     in p_media_type varchar(255),
@@ -20,7 +20,7 @@ create procedure trafficlens.add_entity (
     out p_new_id int
 )
 begin
-    insert into trafficlens.entities (
+    insert into overwatch.entities (
         source_id,
         media_id,
         media_type,
@@ -56,7 +56,7 @@ delimiter ;
     reterives the entity object referenced by sysid as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_entity (
+create procedure overwatch.get_entity (
     in p_entity_id int
 )
 begin
@@ -89,7 +89,7 @@ begin
             "additional_view_west",
             additional_view_west
         ) as dataset
-    from trafficlens.entities
+    from overwatch.entities
     where sysid = p_entity_id;
 end //
 delimiter ;
@@ -98,7 +98,7 @@ delimiter ;
     reterives the entities belonging to a specified source as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_entity_by_source (
+create procedure overwatch.get_entity_by_source (
     in p_source_id int
 )
 begin
@@ -131,7 +131,7 @@ begin
             "additional_view_west",
             additional_view_west
         ) as dataset
-    from trafficlens.entities
+    from overwatch.entities
     where source_id = p_source_id;
 end //
 delimiter ;
@@ -140,7 +140,7 @@ delimiter ;
     get entities within x km radius of specified location as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_entities_nearby (
+create procedure overwatch.get_entities_nearby (
     in p_radius int,
     in p_geo_lat decimal(8,6),
     in p_geo_lon decimal(9,6)
@@ -170,7 +170,7 @@ begin
         (6371 * acos(
             cos(radians(p_geo_lat)) * cos(radians(geo_lat)) * cos(radians(geo_lon) - radians(p_geo_lon)) + sin(radians(p_geo_lat)) * sin(radians(geo_lat))
         )) as distance_km
-    from trafficlens.entities
+    from overwatch.entities
     having distance_km <= p_radius
     order by distance_km;
 end //
@@ -180,7 +180,7 @@ delimiter ;
     updates the entity object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.update_entity (
+create procedure overwatch.update_entity (
     in p_entity_id int,
     in p_source_id int,
     in p_media_id varchar(255),
@@ -196,7 +196,7 @@ create procedure trafficlens.update_entity (
     in p_additional_view_west varchar(2000)
 )
 begin
-    update trafficlens.entities set
+    update overwatch.entities set
         source_id = p_source_id,
         media_id = p_media_id,
         media_type = p_media_type,
@@ -217,10 +217,10 @@ delimiter ;
     deletes the entity object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.delete_entity (
+create procedure overwatch.delete_entity (
     in p_sysid int
 )
 begin
-    delete from trafficlens.entities where sysid = p_sysid;
+    delete from overwatch.entities where sysid = p_sysid;
 end //
 delimiter ;

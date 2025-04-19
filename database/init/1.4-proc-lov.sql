@@ -1,10 +1,10 @@
--- CRUD trafficlens.lov
+-- CRUD overwatch.lov
 
 /*  
     adds a lov object to tables, returns sysid of new record
 */
 delimiter //
-create procedure trafficlens.add_lov_item (    
+create procedure overwatch.add_lov_item (    
     in p_list_name varchar(255),
     in p_item_name varchar(255),
     in p_item_value varchar(255),
@@ -12,7 +12,7 @@ create procedure trafficlens.add_lov_item (
     out p_new_id int
 )
 begin
-    insert into trafficlens.lov (
+    insert into overwatch.lov (
         list_name,
         item_name,
         item_value,
@@ -32,7 +32,7 @@ delimiter ;
     reterives a lov object referenced by sysid as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_lov_item (
+create procedure overwatch.get_lov_item (
     in p_lov_id int
 )
 begin
@@ -49,7 +49,7 @@ begin
             "sort_order",
             sort_order
         ) as dataset
-    from trafficlens.lov
+    from overwatch.lov
     where sysid = p_lov_id;
 end //
 delimiter ;
@@ -58,7 +58,7 @@ delimiter ;
     updates a lov object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.update_lov_item (
+create procedure overwatch.update_lov_item (
     in p_lov_id int,
     in p_list_name varchar(255),
     in p_item_name varchar(255),
@@ -66,7 +66,7 @@ create procedure trafficlens.update_lov_item (
     in p_sort_order int
 )
 begin
-    update trafficlens.lov set
+    update overwatch.lov set
         list_name = p_list_name,
         item_name = p_item_name,
         item_value = p_item_value,
@@ -79,10 +79,10 @@ delimiter ;
     deletes a lov object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.delete_lov_item (
+create procedure overwatch.delete_lov_item (
     p_lov_id int
 )
 begin
-    delete from trafficlens.lov where sysid = p_lov_id;
+    delete from overwatch.lov where sysid = p_lov_id;
 end //
 delimiter ;

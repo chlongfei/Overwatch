@@ -1,10 +1,10 @@
--- CRUD trafficlens.sources
+-- CRUD overwatch.sources
 
 /* 
     adds a source object to tables, returns sysid of new record
 */
 delimiter //
-create procedure trafficlens.add_source (
+create procedure overwatch.add_source (
     in p_source_name varchar(255),
     in p_source_type varchar(5),
     in p_origin varchar(255),
@@ -12,7 +12,7 @@ create procedure trafficlens.add_source (
     out p_new_id int
 )
 begin
-    insert into trafficlens.sources (
+    insert into overwatch.sources (
         source_name,
         source_type,
         origin,
@@ -32,26 +32,26 @@ delimiter ;
     reterives all source objects as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_sources () 
+create procedure overwatch.get_sources () 
 begin
     select 
         json_object(
             "id",
-            trafficlens.sources.sysid,
+            overwatch.sources.sysid,
             "source_name",
-            trafficlens.sources.source_name,
+            overwatch.sources.source_name,
             "source_type",
-            trafficlens.sources.source_type,
+            overwatch.sources.source_type,
             "origin",
-            trafficlens.sources.origin,
+            overwatch.sources.origin,
             "origin_url",
-            trafficlens.sources.origin_url,
+            overwatch.sources.origin_url,
             "entity_count",
-            ifnull(count(trafficlens.entities.sysid),0)
+            ifnull(count(overwatch.entities.sysid),0)
         ) as dataset
-    from trafficlens.sources
-    left join trafficlens.entities on trafficlens.sources.sysid = trafficlens.entities.source_id
-    group by trafficlens.sources.sysid, trafficlens.sources.source_name, trafficlens.sources.source_type, trafficlens.sources.origin, trafficlens.sources.origin_url;
+    from overwatch.sources
+    left join overwatch.entities on overwatch.sources.sysid = overwatch.entities.source_id
+    group by overwatch.sources.sysid, overwatch.sources.source_name, overwatch.sources.source_type, overwatch.sources.origin, overwatch.sources.origin_url;
 end //
 delimiter ;
 
@@ -59,7 +59,7 @@ delimiter ;
     reterives the source object referenced by sysid as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_source (
+create procedure overwatch.get_source (
   in p_source_id int
 ) 
 begin
@@ -76,7 +76,7 @@ begin
             "origin_url",
             origin_url
         ) as dataset
-    from trafficlens.sources
+    from overwatch.sources
     where sysid = p_source_id;
 end //
 delimiter ;
@@ -85,7 +85,7 @@ delimiter ;
     reterives the source object referenced by source_name as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_source_by_name (
+create procedure overwatch.get_source_by_name (
   in p_source_name varchar(255)
 ) 
 begin
@@ -102,7 +102,7 @@ begin
             "origin_url",
             origin_url
         ) as dataset
-    from trafficlens.sources
+    from overwatch.sources
     where source_name = p_source_name;
 end //
 delimiter ;
@@ -111,7 +111,7 @@ delimiter ;
     updates the source object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.update_source (
+create procedure overwatch.update_source (
     in p_sysid int,
     in p_source_name varchar(255),
     in p_source_type varchar(5),
@@ -119,7 +119,7 @@ create procedure trafficlens.update_source (
     in p_origin_url varchar(4000)
 )
 begin
-    update trafficlens.sources set
+    update overwatch.sources set
         source_name = p_source_name,
         source_type = p_source_type,
         origin = p_origin,
@@ -132,10 +132,10 @@ delimiter ;
     deletes the source object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.delete_source (
+create procedure overwatch.delete_source (
     in p_sysid int
 )
 begin
-    delete from trafficlens.sources where sysid = p_sysid;
+    delete from overwatch.sources where sysid = p_sysid;
 end //
 delimiter ;

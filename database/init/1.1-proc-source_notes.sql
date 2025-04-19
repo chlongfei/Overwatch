@@ -1,16 +1,16 @@
--- CRUD trafficlens.source_notes
+-- CRUD overwatch.source_notes
 
 /* 
     adds a source note object to tables, returns sysid of new record
 */
 delimiter //
-create procedure trafficlens.add_source_note (
+create procedure overwatch.add_source_note (
     in p_source_id int,
     in p_content varchar(255),
     out p_new_id int
 )
 begin
-    insert into trafficlens.source_notes (
+    insert into overwatch.source_notes (
         source_id,
         content
     ) values (
@@ -26,7 +26,7 @@ delimiter ;
     reterives the source note object referenced by sysid as a JSON formatted string
 */
 delimiter //
-create procedure trafficlens.get_source_note (
+create procedure overwatch.get_source_note (
     in p_source_note_id int
 )
 begin
@@ -37,7 +37,7 @@ begin
             "content",
             content
         ) as dataset
-    from trafficlens.source_notes
+    from overwatch.source_notes
     where sysid = p_source_note_id;
 end //
 delimiter ;
@@ -46,13 +46,13 @@ delimiter ;
     updates the source note object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.update_source_note (
+create procedure overwatch.update_source_note (
     in p_source_note_id int,
     in p_source_id int,
     in p_content varchar(255)
 )
 begin
-    update trafficlens.source_notes set
+    update overwatch.source_notes set
         source_id = p_source_id,
         content = p_content
     where sysid = p_source_note_id;
@@ -63,10 +63,10 @@ delimiter ;
     deletes the source note object referenced by sysid
 */
 delimiter //
-create procedure trafficlens.delete_source_note (
+create procedure overwatch.delete_source_note (
     in p_source_note_id int
 )
 begin
-    delete from trafficlens.source_notes where sysid = p_source_note_id;
+    delete from overwatch.source_notes where sysid = p_source_note_id;
 end //
 delimiter ;

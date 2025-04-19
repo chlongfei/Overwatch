@@ -1,9 +1,9 @@
 /* CREATE DATABASE */
-create database if not exists trafficlens;
+create database if not exists overwatch;
 
 /* CREATE TABLES */
 /* table to hold all the sources for entities*/
-create table trafficlens.sources (
+create table overwatch.sources (
     sysid int not null auto_increment,
     source_name varchar(255) not null,
     source_type varchar(20) not null,
@@ -14,17 +14,17 @@ create table trafficlens.sources (
 );
 
 /* table to hold notes for sources */
-create table trafficlens.source_notes (
+create table overwatch.source_notes (
     sysid int not null auto_increment,
     source_id int not null,
     content varchar(255) not null,
 
     primary key (sysid),
-    foreign key (source_id) references trafficlens.sources (sysid) on delete cascade
+    foreign key (source_id) references overwatch.sources (sysid) on delete cascade
 );
 
 /* table to hold entities from sources */
-create table trafficlens.entities (
+create table overwatch.entities (
     sysid int not null auto_increment,
     source_id int not null,
     media_id varchar(255) not null,
@@ -40,21 +40,21 @@ create table trafficlens.entities (
     additional_view_west varchar(2000),
 
     primary key (sysid),
-    foreign key (source_id) references trafficlens.sources (sysid) on delete cascade
+    foreign key (source_id) references overwatch.sources (sysid) on delete cascade
 );
 
 /* table to hold tags for entities */
-create table trafficlens.entity_tags (
+create table overwatch.entity_tags (
     sysid int not null auto_increment,
     entity_id int not null,
     content varchar(255) not null,
 
     primary key (sysid),
-    foreign key (entity_id) references trafficlens.entities (sysid) on delete cascade
+    foreign key (entity_id) references overwatch.entities (sysid) on delete cascade
 );
 
 /* table to hold list of misc. items used by application */
-create table trafficlens.lov (
+create table overwatch.lov (
     sysid int not null auto_increment,
     list_name varchar(255) not null,
     item_name varchar(255) not null,

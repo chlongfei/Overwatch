@@ -1,4 +1,4 @@
-from tldb import TLDB
+from ovdb import OVDB
 from requests import get
 from json import loads
 from dataclasses import dataclass
@@ -17,7 +17,7 @@ class EntityItem:
     additionalS: str
     additionalW: str
 
-class TLSYNC:
+class OVSYNC:
     """ Abstract class for data syncronization
 
     This class is used an abstract class that is inherited by specific classes for the import of source and their entities.
@@ -104,12 +104,12 @@ class TLSYNC:
         sourceId = None
 
         try:
-            with TLDB() as tldb:
-                sourceId = loads(tldb.getSourceByName(self.sourceName)[0])["id"]
+            with OVDB() as ovdb:
+                sourceId = loads(ovdb.getSourceByName(self.sourceName)[0])["id"]
         except LookupError:
-            with TLDB() as tldb:
-                sourceId = tldb.addSource(self.sourceName, self.sourceType, self.sourceOrigin, self.sourceOriginUri)[0]
+            with OVDB() as ovdb:
+                sourceId = ovdb.addSource(self.sourceName, self.sourceType, self.sourceOrigin, self.sourceOriginUri)[0]
 
-        with TLDB() as tldb:
+        with OVDB() as ovdb:
             for entity in self.entityItems:
-                tldb.addEntity(str(sourceId), entity.id, entity.mediaType, entity.url, entity.last_updated, entity.name, entity.geoLat, entity.geoLon, entity.additionalN, entity.additionalE, entity.additionalS, entity.additionalW)
+                ovdb.addEntity(str(sourceId), entity.id, entity.mediaType, entity.url, entity.last_updated, entity.name, entity.geoLat, entity.geoLon, entity.additionalN, entity.additionalE, entity.additionalS, entity.additionalW)
