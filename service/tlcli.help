@@ -1,0 +1,8 @@
+TRAFFIC LENS COMMAND LINE INTERFACE - Help
+------------------------------------------------------------
+exit            Closes the application
+help            Print help text
+dbalive         Returns True if database is alive
+get all sources Prints all sources in the database
+get entities    Prints all entities under specified sourceID
+sync            Invokes a sync action

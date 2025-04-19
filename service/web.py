@@ -6,13 +6,17 @@ app = Flask(__name__)
 # App Console
 @app.route('/')
 def route_root():
-    return render_template('index.html')
+    return render_template('nearby.html')
 
 
 # Admin Console
-@app.route('/admin')
+@app.route('/source')
 def route_admin_root():
     return render_template('admin/sources.html')
+
+@app.route('/source/<sourceID>')
+def route_admin_entities(sourceID):
+    return render_template('admin/entities.html', sourceid = sourceID)
 
 
 # API
@@ -31,5 +35,20 @@ def api_sources():
 def api_source_entities(sourceID):
     if (request.method == 'GET'):
         return TL.getEntitiesBySource(sourceID)
+    else:
+        return Response(status=500)
+
+@app.route('/api/entity/<entityID>')
+def api_source_entity(entityID):
+    if (request.method == 'GET'):
+        return TL.getEntity(entityID)
+    else:
+        return Response(status=500)
+
+
+@app.route('/api/entity/<geoLat>/<geoLon>')
+def api_source_entity_nearby(geoLat,geoLon):
+    if (request.method == 'GET'):
+        return TL.getEntitiesNearby(1, geoLat,geoLon)
     else:
         return Response(status=500)

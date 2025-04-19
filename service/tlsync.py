@@ -1,10 +1,12 @@
 from tldb import TLDB
 from requests import get
+from json import loads
 from dataclasses import dataclass
 
 @dataclass
 class EntityItem:
     id: str
+    mediaType: str
     url: str
     last_updated: str
     name: str
@@ -70,7 +72,7 @@ class TLSYNC:
         """
         entityLoadingMethod(self.sourceData, self.__addEntity)
   
-    def __addEntity(self, id, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW):
+    def __addEntity(self, id, mediaType, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW):
         """Creates Entity Item object list
 
         Taking in the entity information and loading them into EntityItem and appends them to list.
@@ -88,7 +90,7 @@ class TLSYNC:
             additionalW: url of media for WEST facing view
         """
         self.entityItems.append(
-            EntityItem(id, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW)
+            EntityItem(id, mediaType, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW)
         )
 
     def getEntities(self):
@@ -99,10 +101,15 @@ class TLSYNC:
     def sync(self):
         """Performs sync action
         """
+        sourceId = None
+
+        try:
+            with TLDB() as tldb:
+                sourceId = loads(tldb.getSourceByName(self.sourceName)[0])["id"]
+        except LookupError:
+            with TLDB() as tldb:
+                sourceId = tldb.addSource(self.sourceName, self.sourceType, self.sourceOrigin, self.sourceOriginUri)[0]
+
         with TLDB() as tldb:
-            self.__addSource(tldb)
-
-
-
-
-    
+            for entity in self.entityItems:
+                tldb.addEntity(str(sourceId), entity.id, entity.mediaType, entity.url, entity.last_updated, entity.name, entity.geoLat, entity.geoLon, entity.additionalN, entity.additionalE, entity.additionalS, entity.additionalW)

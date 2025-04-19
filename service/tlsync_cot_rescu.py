@@ -6,12 +6,12 @@ class SyncCotRescu (TLSYNC):
     """
 
     name = "City of Toronto - RESCU"
-    type="Municipality"
+    sourceType="city"
     origin="Open Data"
     uri="https://opendata.toronto.ca/transportation/tmc/rescucameraimages/Data/tmcearthcameras.json"
 
     def __init__(self):
-        super()._addSource(self.name, self.type, self.origin, self.uri)
+        super()._addSource(self.name, self.sourceType, self.origin, self.uri)
         super()._fetchData(self.__dataProcessingMethod)
         super()._loadEntities(self.__entityLoadingProcedure)
 
@@ -52,20 +52,14 @@ class SyncCotRescu (TLSYNC):
             # add entity
             addEntity(
                 id= ent["Number"],
+                mediaType = 'static',
                 url= "https://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc" + ent["Number"] + ".jpg",
                 last_updated = "01/01/1970",
                 name = ent["Name"],
                 geoLat = ent["Latitude"],
                 geoLon = ent["Longitude"],
-                additionalN = northCam,
-                additionalE = eastCam,
-                additionalS = southCam,
-                additionalW = westCam
+                additionalN = str(northCam),
+                additionalE = str(eastCam),
+                additionalS = str(southCam),
+                additionalW = str(westCam)
             )
-
-
-sync = SyncCotRescu()
-entities = sync.getEntities()
-
-for ent in entities:
-    print(ent)

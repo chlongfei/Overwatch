@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100dvh;
+    min-width: 100dvw;
+    background: linear-gradient(75deg, rgb(39, 39, 39), rgb(85, 85, 85), rgb(39, 39, 39));
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow-x: hidden;
+}
+
+.navbar {
+    padding: 20px;
+    background-color: black;
+    color: white;
+}
+
+.navbar > div {
+    display: inline-block;
+}
+
+#media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+}
+
+.container {
+    padding: 10px;
+    margin: auto;
+    width: 95%;
+}
+
+.camera-feed {
+    position: relative;
+}
+
+.camera-feed > div {
+    position: absolute;
+    color: white;
+    background-color: black;
+    padding: 1px 5px;
+}
+.camera-feed > img {
+    max-width: 100%;
+}

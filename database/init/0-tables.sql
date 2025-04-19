@@ -6,7 +6,7 @@ create database if not exists trafficlens;
 create table trafficlens.sources (
     sysid int not null auto_increment,
     source_name varchar(255) not null,
-    source_type varchar(5) not null,
+    source_type varchar(20) not null,
     origin varchar(255),
     origin_url varchar(4000),
 

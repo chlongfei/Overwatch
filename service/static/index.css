@@ -17,13 +17,17 @@
 .nav {
     background: var(--tl-primary);
     color: white;
-    height: 100dvh;
+    min-height: 100dvh;
     width: 200px;
 }
 .nav-section {
     margin: 0 10px;
     padding: 10px 0;
     border-bottom: solid thin;
+}
+
+.nav-title {
+    cursor: pointer;
 }
 
 .container {
