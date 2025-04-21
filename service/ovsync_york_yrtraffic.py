@@ -19,20 +19,15 @@ class SyncYRT (OVSYNC):
         """Data manipulation procedure
 
         return:
-            json array containing entities        
+            JSON array containing the camera entities
         """
-        # cleanup data
-        # data = data.lstrip()
-        # data = data.rstrip()
-        # data = data.removeprefix("jsonTMCEarthCamerasCallback(")
-        # data = data.removesuffix(");")
 
         features = loads(data)["features"]
         return features
     
     def __entityLoadingProcedure(self, data, addEntity):
         """Entity loading procedure
-
+        
         Iterates through the list of entities and loads them into the object
 
         args:
