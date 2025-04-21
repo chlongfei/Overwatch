@@ -32,7 +32,7 @@ def getEntitiesNearby():
     return OV.getEntitiesNearby(rad, lat, lon)
 
 def invokeSync():
-    sources = ["cot-rescu"]
+    sources = ["cot-rescu","york-traffic"]
     source = input("source (? to show): ")
     if (source in sources):
         return OV.invokeSync(source)

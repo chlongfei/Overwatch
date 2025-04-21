@@ -1,5 +1,6 @@
 from ovdb import OVDB
 from ovsync_cot_rescu import SyncCotRescu
+from ovsync_york_yrtraffic import SyncYRT
 
 class OV:
 
@@ -24,7 +25,8 @@ class OV:
         
     def invokeSync(source):
         sources = {
-            "cot-rescu":SyncCotRescu
+            "cot-rescu":SyncCotRescu,
+            "york-traffic":SyncYRT
         }
         sync = sources.get(source)()
         return sync.sync()
