@@ -112,4 +112,4 @@ class OVSYNC:
 
         with OVDB() as ovdb:
             for entity in self.entityItems:
-                ovdb.addEntity(str(sourceId), entity.id, entity.mediaType, entity.url, entity.last_updated, entity.name, entity.geoLat, entity.geoLon, entity.additionalN, entity.additionalE, entity.additionalS, entity.additionalW)
+                ovdb.addEntity(str(sourceId), str(entity.id), str(entity.mediaType), str(entity.url), str(entity.last_updated), str(entity.name), str(entity.geoLat), str(entity.geoLon), str(entity.additionalN), str(entity.additionalE), str(entity.additionalS), str(entity.additionalW))
