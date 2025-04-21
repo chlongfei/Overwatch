@@ -56,7 +56,3 @@ class SyncYRT (OVSYNC):
                 additionalS = "null", #TODO: REMOVE THIS
                 additionalW = "null" #TODO: REMOVE THIS
             )
-
-
-yrt = SyncYRT()
-yrt.sync()
