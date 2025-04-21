@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby \ Overwatch</title>
+    <link rel="stylesheet" href="/static/index.css"/>
+</head>
+<body class="grid-container">
+    <div class="nav">
+        <div class="nav-section nav-title" onclick="window.location.href='/'">
+            <h1>Overwatch</h1>
+            <div style="font-size: smaller;">Your eyes from above</div>
+        </div>
+        <div class="nav-section">
+            <div><span style="font-size: x-small;">Connection Status</span> <span id="server-status"></span></div>
+            <script>
+                getServerStatus()
+                setInterval(getServerStatus, 30000);
+
+                function getServerStatus(){
+                    let req = new XMLHttpRequest();
+                    req.open("GET","/api");
+                    req.onreadystatechange = () => {
+                        if (req.readyState === XMLHttpRequest.DONE){
+                            if (req.status === 200){
+                                document.getElementById("server-status").innerHTML = 'OK <span style="color:rgb(0, 255, 0); font-size:30px; vertical-align:middle">&bull;</span>';
+                            } else {
+                                document.getElementById("server-status").innerHTML = 'OFFLINE <span style="color:red; font-size:30px; vertical-align:middle">&bull;</span>';
+                            }
+                        }
+                    }
+                    req.send();
+                    document.getElementById("server-status").innerHTML = 'CHECKING...';
+                }
+            </script>
+        </div>
+    </div>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="3" style="text-align: start;">
+                        <h1>Nearby Cameras</h1>
+                    </td>
+                    <td colspan="2" style="text-align: end;">
+                        <input name="util-enable-auto-refresh" type="checkbox" checked>
+                        <label for="util-enable-auto-refresh">Auto Refresh</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Source
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Uri
+                    </th>
+                    <th>
+                        Preview
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="camera-feed-rows">
+                <tr>
+                    <td colspan="5">
+                        Fetching data...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>    
+    <script>
+        getGeolocation(43.656142,-79.380330);
+
+        setInterval(() => {
+            if (document.getElementById("util-enable-auto-refresh").checked)
+            getGeolocation(43.656142,-79.380330);
+        }, 120000);
+
+        function fetchData(position){                   
+            let req = new XMLHttpRequest();
+            req.open("GET",`/api/entity/${position.coords.latitude}/${position.coords.longitude}`);
+            req.onreadystatechange = () => {
+                if (req.readyState === XMLHttpRequest.DONE){
+                    if (req.status === 200){
+                        var data = JSON.parse(req.responseText);
+
+                        var cameraMediaRows = document.createElement('tbody')
+                        cameraMediaRows.id = "camera-feed-rows"
+
+                        if (data.length > 0){
+                            data.forEach(async (element) => {
+                                let cameraRecord = document.createElement('tr');
+
+                                let cameraNameNode = document.createElement('td');
+                                cameraNameNode.innerText = element.media_name;
+                                cameraRecord.appendChild(cameraNameNode);
+                                
+                                let cameraSourceNode = document.createElement('td');
+                                cameraSourceNode.innerText = element.source_name;
+                                cameraRecord.appendChild(cameraSourceNode);
+                                
+                                let cameraTypeNode = document.createElement('td');
+                                cameraTypeNode.innerText = element.source_type;      
+                                cameraRecord.appendChild(cameraTypeNode);
+                                
+                                let caneraUriNode = document.createElement('td');
+                                caneraUriNode.innerText = element.media_source;
+                                cameraRecord.appendChild(caneraUriNode);
+
+                                
+                                let cameraImageNode = document.createElement('td');
+                                let cameraImage = document.createElement('img');
+                                cameraImage.src = element.media_source + "?" + Date.now();
+                                cameraImage.alt = element.media_name;
+                                cameraImage.height = 100;
+                                cameraImageNode.appendChild(cameraImage);
+                                cameraRecord.appendChild(cameraImageNode);
+
+                                cameraMediaRows.appendChild(cameraRecord);
+                            })
+                        } else {
+                            let cameraRecord = document.createElement('tr');
+                            let cameraData = document.createElement('td');
+                            cameraData.setAttribute("colspan","5");
+                            cameraData.innerText = "No cameras found.";
+                            cameraRecord.appendChild(cameraData);
+                            cameraMediaRows.appendChild(cameraRecord);
+                        }                   
+                        document.getElementById(cameraMediaRows.id).replaceWith(cameraMediaRows);
+                    } else {
+                        document.getElementById("media-grid").innerHTML = 'Failed to fetch data.';
+                    }
+                }
+            }
+            req.send();
+        }
+
+        function geolocationErrorHandler(){
+            console.error("Unable to reterive location.")
+        }
+
+        function getGeolocation(){
+            if (!navigator.geolocation){
+                console.error("Geolocation is not supported by your client.");
+            }else {
+                navigator.geolocation.getCurrentPosition(fetchData,geolocationErrorHandler)
+            }
+        }
+    </script> 
+</body>
+</html>

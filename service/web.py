@@ -5,18 +5,22 @@ app = Flask(__name__)
 
 # App Console
 @app.route('/')
-def route_root():
-    return render_template('nearby.html')
+def route_show_nearby_videogrid():
+    return render_template('nearby-videogrid.html')
 
 
 # Admin Console
+@app.route('/nearby')
+def route_show_nearby_table():
+    return render_template('nearby-table.html')
+
 @app.route('/source')
-def route_admin_root():
-    return render_template('admin/sources.html')
+def route_show_sources():
+    return render_template('sources.html')
 
 @app.route('/source/<sourceID>')
-def route_admin_entities(sourceID):
-    return render_template('admin/entities.html', sourceid = sourceID)
+def route_show_entities(sourceID):
+    return render_template('entities.html', sourceid = sourceID)
 
 
 # API
