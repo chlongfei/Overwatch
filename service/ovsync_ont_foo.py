@@ -35,20 +35,25 @@ class SyncOntFoo (OVSYNC):
             addEntity: reference to addEntity operation from tlsync
         """
 
-        for ent in data:
-            for view in ent["Views"]:        
+        doNotSyncSources = [
+            "City of Toronto"
+        ]
 
-                # add entity
-                addEntity(
-                    id= view["Id"],
-                    mediaType = 'static',
-                    url= view["Url"],
-                    last_updated = "01/01/1970", #TODO: REMOVE THIS
-                    name = ent["Location"] + " " + view["Description"],
-                    geoLat = str(ent["Latitude"]),
-                    geoLon = str(ent["Longitude"]),
-                    additionalN = "null", #TODO: REMOVE THIS
-                    additionalE = "null", #TODO: REMOVE THIS
-                    additionalS = "null", #TODO: REMOVE THIS
-                    additionalW = "null" #TODO: REMOVE THIS
-                )
+        for ent in data:
+            if (ent["Source"] not in doNotSyncSources):
+                print(ent["Source"])
+                for view in ent["Views"]:
+                    # add entity
+                    addEntity(
+                        id= view["Id"],
+                        mediaType = 'static',
+                        url= view["Url"],
+                        last_updated = "01/01/1970", #TODO: REMOVE THIS
+                        name = ent["Location"] + " " + view["Description"],
+                        geoLat = str(ent["Latitude"]),
+                        geoLon = str(ent["Longitude"]),
+                        additionalN = "null", #TODO: REMOVE THIS
+                        additionalE = "null", #TODO: REMOVE THIS
+                        additionalS = "null", #TODO: REMOVE THIS
+                        additionalW = "null" #TODO: REMOVE THIS
+                    )

@@ -80,7 +80,7 @@
                                 data = JSON.parse(req.responseText)
                                 document.getElementById("sources-list").innerHTML = '';
                                 data.forEach(element => {
-                                    document.getElementById("sources-list").innerHTML += `<tr onclick="window.open('${element.media_source}')"><td>${element.media_id}</td><td>${element.media_name}</td><td><a href="${element.media_source}" target=_blank>${element.media_source}</a></td><td>${element.geo_lat}</td><td>${element.geo_lon}</td><td><img src="${element.media_source}" style="height: 100px" alt="camera preview"/></td></tr>`;
+                                    document.getElementById("sources-list").innerHTML += `<tr onclick="window.open('${element.media_source}')"><td>${element.media_id}</td><td>${element.media_name}</td><td><a href="${element.media_source}" target=_blank>${element.media_source}</a></td><td>${element.geo_lat}</td><td>${element.geo_lon}</td><td><img loading="lazy" src="${element.media_source}" style="height: 100px" alt="camera preview"/></td></tr>`;
                             });
                             } else {
                                 document.getElementById("sources-list").innerHTML = 'Failed to fetch data.';
