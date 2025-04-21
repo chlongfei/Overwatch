@@ -47,7 +47,6 @@ class SyncOntFoo (OVSYNC):
                         id= view["Id"],
                         mediaType = 'static',
                         url= view["Url"],
-                        last_updated = "01/01/1970", #TODO: REMOVE THIS
                         name = ent["Location"] + " " + view["Description"],
                         geoLat = str(ent["Latitude"]),
                         geoLon = str(ent["Longitude"]),

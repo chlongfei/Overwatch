@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/tl.css"/>
 </head>
 <body>
+
     <div class="navbar">
         <table style="width: 100%;">
             <tr>
@@ -19,10 +20,12 @@
             </tr>
         </table>
     </div>
+    
     <div id="media-container" class="container">
         <div id="media-grid">
         </div>
     </div>
+    
     <script>
         getGeolocation(43.656142,-79.380330);
 
@@ -30,6 +33,9 @@
             getGeolocation(43.656142,-79.380330);
         }, 120000);
 
+        /**
+         * Fetches data and throws it into media-container for display 
+         */
         function fetchData(position){                   
             let req = new XMLHttpRequest();
             req.open("GET",`/api/entity/${position.coords.latitude}/${position.coords.longitude}`);
@@ -38,38 +44,43 @@
                     if (req.status === 200){
                         var data = JSON.parse(req.responseText);
                         
-                        var cameraGrid =  document.createElement("div")
-                        cameraGrid.id = "media-grid";     
+                        if (data.length > 0){
+                            var cameraGrid =  document.createElement("div")
+                            cameraGrid.id = "media-grid";     
 
-                        var numCameras = data.length;
+                            var numCameras = data.length;
 
-                        data.forEach(async (element) => {
-                            let feed = document.createElement("div")
-                            feed.className = "camera-feed"
-                            feed.id = `cam-${element.id}`
+                            data.forEach(async (element) => {
+                                let feed = document.createElement("div")
+                                feed.className = "camera-feed"
+                                feed.id = `cam-${element.id}`
 
-                            let feedBadge = document.createElement("div")
-                            feedBadge.appendChild(document.createTextNode(element.media_name))
-                            feed.appendChild(feedBadge)
+                                let feedBadge = document.createElement("div")
+                                feedBadge.appendChild(document.createTextNode(element.media_name))
+                                feed.appendChild(feedBadge)
 
-                            let feedImg = new Image()
-                            feedImg.src = element.media_source + "?" + Date.now();
-                            feed.appendChild(feedImg);
-                            cameraGrid.appendChild(feed)
-                            await feedImg.decode()
-                                .then(()=>{    
-                                    // do nothing                       
-                                })
-                                .catch(() => {
-                                    cameraGrid.removeChild(feed);
-                                })
-                                .finally(() => {
-                                    numCameras --;
-                                    if (numCameras <= 0){
-                                        document.getElementById("media-container").replaceChild(cameraGrid, document.getElementById("media-grid"));
-                                    }
-                                })
-                        })                                                    
+                                let feedImg = new Image()
+                                feedImg.src = element.media_source + "?" + Date.now();
+                                feed.appendChild(feedImg);
+                                cameraGrid.appendChild(feed)
+                                await feedImg.decode()
+                                    .catch(() => {
+                                        cameraGrid.removeChild(feed);
+                                    })
+                                    .finally(() => {
+                                        numCameras --;
+                                        if (numCameras <= 0){
+                                            document.getElementById("media-container").replaceChild(cameraGrid, document.getElementById("media-grid"));
+                                        }
+                                    })
+                            })    
+                        } else {
+                            let ncPrompt = document.createElement('div')
+                            ncPrompt.id = "media-grid";
+                            ncPrompt.innerHTML = '<div style="font-size:larger; text-align:center; color:white">No cameras found near you.</div>';
+                            document.getElementById("media-container").replaceChild(ncPrompt, document.getElementById("media-grid"));
+
+                        }                                                                        
                     } else {
                         document.getElementById("media-grid").innerHTML = 'Failed to fetch data.';
                     }
@@ -78,10 +89,16 @@
             req.send();
         }
 
+        /**
+        * Error handler for Geolocation API
+        */
         function geolocationErrorHandler(){
             console.error("Unable to reterive location.")
         }
-
+        
+        /**
+         * Calls Geolocation API to get client location
+         */
         function getGeolocation(){
             if (!navigator.geolocation){
                 console.error("Geolocation is not supported by your client.");

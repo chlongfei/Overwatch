@@ -8,7 +8,6 @@ class EntityItem:
     id: str
     mediaType: str
     url: str
-    last_updated: str
     name: str
     geoLat: str
     geoLon: str
@@ -58,7 +57,7 @@ class OVSYNC:
         """
         entityLoadingMethod(self.sourceData, self.__addEntity)
   
-    def __addEntity(self, id, mediaType, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW):
+    def __addEntity(self, id, mediaType, url, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW):
         """Creates Entity Item object list
 
         Taking in the entity information and loading them into EntityItem and appends them to list.
@@ -66,7 +65,6 @@ class OVSYNC:
         args:
             id: source issued id for entity
             url: main media source for entity
-            last_updated: date stamp for when entity media was last updated (useful for snapshot based media)
             name: source issued name for entity
             geoLat: geographical latitude of entity
             geoLon: geographical longitude of entity
@@ -76,7 +74,7 @@ class OVSYNC:
             additionalW: url of media for WEST facing view
         """
         self.entityItems.append(
-            EntityItem(id, mediaType, url, last_updated, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW)
+            EntityItem(id, mediaType, url, name, geoLat, geoLon, additionalN, additionalE, additionalS, additionalW)
         )
 
     def getEntities(self):
@@ -98,4 +96,4 @@ class OVSYNC:
 
         with OVDB() as ovdb:
             for entity in self.entityItems:
-                ovdb.addEntity(str(sourceId), str(entity.id), str(entity.mediaType), str(entity.url), str(entity.last_updated), str(entity.name), str(entity.geoLat), str(entity.geoLon), str(entity.additionalN), str(entity.additionalE), str(entity.additionalS), str(entity.additionalW))
+                ovdb.addEntity(str(sourceId), str(entity.id), str(entity.mediaType), str(entity.url), str(entity.name), str(entity.geoLat), str(entity.geoLon), str(entity.additionalN), str(entity.additionalE), str(entity.additionalS), str(entity.additionalW))

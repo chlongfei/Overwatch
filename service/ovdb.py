@@ -60,9 +60,9 @@ class OVDB():
             return source
 
     # ENTITIES
-    def addEntity(self, sourceID:str, mediaID:str, mediaType:str, mediaSource:str, mediaLastUpdated:str, mediaName:str, geoLat:str, geoLon:str, additionViewN:str, additionViewE:str, additionViewS:str, additionViewW:str):
+    def addEntity(self, sourceID:str, mediaID:str, mediaType:str, mediaSource:str, mediaName:str, geoLat:str, geoLon:str, additionViewN:str, additionViewE:str, additionViewS:str, additionViewW:str):
         cursor = self.db.cursor()
-        cursor.execute("CALL add_entity(" + sourceID  + ",\"" + mediaID  + "\",\"" + mediaType  + "\",\"" + mediaSource  + "\", str_to_date(\"" + mediaLastUpdated  + "\",\"%m/%d/%Y\"),\"" + mediaName  + "\",\"" + geoLat  + "\",\"" + geoLon  + "\",\"" + additionViewN  + "\",\"" + additionViewE  + "\",\"" + additionViewS  + "\",\"" + additionViewW + "\", @newID)")
+        cursor.execute("CALL add_entity(" + sourceID  + ",\"" + mediaID  + "\",\"" + mediaType  + "\",\"" + mediaSource  + "\",\"" + mediaName  + "\",\"" + geoLat  + "\",\"" + geoLon  + "\",\"" + additionViewN  + "\",\"" + additionViewE  + "\",\"" + additionViewS  + "\",\"" + additionViewW + "\", @newID)")
         cursor.close()
         self.db.commit()
 

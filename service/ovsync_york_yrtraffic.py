@@ -42,7 +42,6 @@ class SyncYRT (OVSYNC):
                 id= ent["attributes"]["FACILITYID"],
                 mediaType = 'static',
                 url= ent["attributes"]["photo"],
-                last_updated = "01/01/1970", #TODO: REMOVE THIS
                 name = ent["attributes"]["cameralocation"],
                 geoLat = str(ent["geometry"]["y"]),
                 geoLon = str(ent["geometry"]["x"]),

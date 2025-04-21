@@ -54,7 +54,6 @@ class SyncCotRescu (OVSYNC):
                 id= ent["Number"],
                 mediaType = 'static',
                 url= "https://opendata.toronto.ca/transportation/tmc/rescucameraimages/CameraImages/loc" + ent["Number"] + ".jpg",
-                last_updated = "01/01/1970",
                 name = ent["Name"],
                 geoLat = ent["Latitude"],
                 geoLon = ent["Longitude"],

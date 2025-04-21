@@ -30,7 +30,6 @@ create table overwatch.entities (
     media_id varchar(255) not null,
     media_type varchar(255) not null,
     media_source text(2000) not null,
-    media_last_updated date not null,
     media_name varchar(255) not null,
     geo_lat decimal(8,6) not null,
     geo_lon decimal(9,6) not null,
