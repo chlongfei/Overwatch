@@ -11,7 +11,7 @@ class SyncOntFoo (OVSYNC):
     uri="https://511on.ca/api/v2/get/cameras"
 
     def __init__(self):
-        super()._addSource(self.name, self.sourceType, self.origin, self.uri)
+        super().__init__(self.name, self.sourceType, self.origin, self.uri)
         super()._fetchData(self.__dataProcessingMethod)
         super()._loadEntities(self.__entityLoadingProcedure)
 
@@ -41,7 +41,6 @@ class SyncOntFoo (OVSYNC):
 
         for ent in data:
             if (ent["Source"] not in doNotSyncSources):
-                print(ent["Source"])
                 for view in ent["Views"]:
                     # add entity
                     addEntity(

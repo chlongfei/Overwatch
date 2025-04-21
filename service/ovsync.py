@@ -23,29 +23,15 @@ class OVSYNC:
     This class is used an abstract class that is inherited by specific classes for the import of source and their entities.
     """
 
-    entityItems = []
+    def __init__(self, sourceName, sourceType, sourceOrigin, sourceOriginUri):
+        self.entityItems = []
 
-    sourceName = None
-    sourceType = None
-    sourceOrigin = None
-    sourceOriginUri = None
+        self.sourceName = sourceName
+        self.sourceType = sourceType
+        self.sourceOrigin = sourceOrigin
+        self.sourceOriginUri = sourceOriginUri
 
-    sourceData = None
-
-
-    def _addSource(self, name, type, origin, uri):
-        """Adds the source information
-
-        args:
-            name: name of source
-            type: source type (e.g. Municipality)
-            origin: data origin (e.g. Open Data)
-            uri: full url path to the data
-        """
-        self.sourceName = name
-        self.sourceType = type
-        self.sourceOrigin = origin
-        self.sourceOriginUri = uri
+        self.sourceData = None
 
     def _fetchData(self, dataProcessingMethod):
         """Fetches and processes data

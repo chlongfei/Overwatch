@@ -11,7 +11,7 @@ class SyncCotRescu (OVSYNC):
     uri="https://opendata.toronto.ca/transportation/tmc/rescucameraimages/Data/tmcearthcameras.json"
 
     def __init__(self):
-        super()._addSource(self.name, self.sourceType, self.origin, self.uri)
+        super().__init__(self.name, self.sourceType, self.origin, self.uri)
         super()._fetchData(self.__dataProcessingMethod)
         super()._loadEntities(self.__entityLoadingProcedure)
 

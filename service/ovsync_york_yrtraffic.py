@@ -11,7 +11,7 @@ class SyncYRT (OVSYNC):
     uri="https://ww8.yorkmaps.ca/arcgis/rest/services/OpenData/Traffic/MapServer/0/query?where=1%3D1&outFields=*&outSR=4326&f=json"
 
     def __init__(self):
-        super()._addSource(self.name, self.sourceType, self.origin, self.uri)
+        super().__init__(self.name, self.sourceType, self.origin, self.uri)
         super()._fetchData(self.__dataProcessingMethod)
         super()._loadEntities(self.__entityLoadingProcedure)
 
@@ -27,7 +27,7 @@ class SyncYRT (OVSYNC):
     
     def __entityLoadingProcedure(self, data, addEntity):
         """Entity loading procedure
-        
+
         Iterates through the list of entities and loads them into the object
 
         args:
